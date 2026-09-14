@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: portfolio-rag-backend
+    runtime: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt && python ingest.py"
+    startCommand: "uvicorn main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: GOOGLE_API_KEY
+        sync: false
+      - key: GITHUB_USERNAME
+        value: AbhijithReddie
+      - key: GITHUB_TOKEN
+        sync: false
+      - key: FRONTEND_ORIGIN
+        sync: false
+      - key: EMBEDDING_MODEL
+        value: gemini-embedding-001
+      - key: CHAT_MODEL
+        value: gemini-2.5-flash
+    disk:
+      name: chroma-storage
+      mountPath: /opt/render/project/src/chroma_db
+      sizeGB: 1
